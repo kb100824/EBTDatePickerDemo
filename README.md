@@ -2,7 +2,7 @@
 
    # 方法1:
     [EBTSelectDatePickerView showInView:self.view andSelectDateCompleteHander:^(NSString *selectDate) {
-        NSLog(@"类方法调用selectDate = %@",selectDate);
+        NSLog(@"类调用selectDate = %@",selectDate);
         
     }];
 
@@ -10,7 +10,7 @@
 
     [[EBTSelectDatePickerView shareInstance] showInView:self.view andSelectDateCompleteHander:^(NSString *selectDate) {
         
-        NSLog(@"单列对象调用selectDate = %@",selectDate);
+        NSLog(@"对象调用selectDate = %@",selectDate);
     }];
 #演示图
 ![Image](https://github.com/KBvsMJ/EBTDatePickerDemo/blob/master/demogif/1.gif)
