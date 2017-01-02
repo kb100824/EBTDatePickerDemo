@@ -1,6 +1,6 @@
 
 #使用cocoapods把类库添加到项目中:
-  ### pod 'EBTSelectDatePicker', '~> 1.0.0'
+  <h3> pod 'EBTSelectDatePicker', '~> 1.0.0' </h3>
 #使用方法有两种：其中回调能获取选择日期并移除pickerview
 
    # 方法1:
