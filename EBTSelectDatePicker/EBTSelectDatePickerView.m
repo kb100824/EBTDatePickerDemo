@@ -26,7 +26,7 @@
     static EBTSelectDatePickerView *dateInstance ;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        
+
         dateInstance = [[EBTSelectDatePickerView alloc]init];
     });
     return dateInstance;
@@ -50,8 +50,8 @@
  *  创建按钮和日期选择器
  */
 - (void)setUp
-{ 
-    
+{
+
     /**toolbar工具条*/
     containToolBar = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 24)];
     containToolBar.backgroundColor = UIColorFromRGB(0x333333);
@@ -63,9 +63,9 @@
     [_btnLeftCancel setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
     [_btnLeftCancel addTarget:self action:@selector(cancelDatePicker:) forControlEvents:UIControlEventTouchUpInside];
     [containToolBar addSubview:_btnLeftCancel];
-    
-    
-    
+
+
+
     /**确定按钮*/
     _btnRightConform = [UIButton buttonWithType:UIButtonTypeCustom];
     _btnRightConform.frame = CGRectMake(SCREEN_WIDTH-60, 0, 60, 24);
@@ -73,8 +73,8 @@
      [_btnRightConform setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     [_btnRightConform addTarget:self action:@selector(ConformDatePicker:) forControlEvents:UIControlEventTouchUpInside];
     [containToolBar addSubview:_btnRightConform];
-    
-    
+
+
     /**datepicker*/
     _datePicker = [[UIDatePicker alloc]init];
     _datePicker.frame = CGRectMake(0, 50, SCREEN_WIDTH, 0);
@@ -85,8 +85,8 @@
     [_datePicker addTarget:self action:@selector(pickerviewChanged:) forControlEvents:UIControlEventValueChanged];
     [self addSubview:_datePicker];
 
-    
-    
+
+
 }
 /**
  *   取消按钮添加事件
@@ -116,12 +116,12 @@
             {
                 selectDateCompleteHander([self dealselectDate:[NSDate date]]);
             }
-            
+
         }
         _isSelectDate = NO;
-        
+
     }
-    
+
 }
 /**
  *  获取当前选择的日期
@@ -131,11 +131,11 @@
 - (void)pickerviewChanged:(UIDatePicker *)picker
 {
     _isSelectDate = YES;
-    
+
     if (selectDateCompleteHander)
     {
         selectDateCompleteHander([self dealselectDate:picker.date]);
-        
+
     }
 }
 /**
@@ -152,14 +152,14 @@
     NSDateComponents *comps = [[NSDateComponents alloc] init] ;
     NSInteger unitFlags = NSCalendarUnitYear |NSCalendarUnitMonth |NSCalendarUnitDay |NSCalendarUnitWeekday |NSCalendarUnitHour |
      NSCalendarUnitMinute |NSCalendarUnitSecond;
-    
+
     comps = [calendar components:unitFlags fromDate:date];
     NSInteger week = [comps weekday];
     NSInteger year=[comps year];
     NSInteger month = [comps month];
     NSInteger day = [comps day];
     /**对月份进行处理月份的位数一位数时需要在月份前面添加“0”*/
-    NSString *monthFormatter = [NSString stringWithFormat:@"%ld",month];
+    NSString *monthFormatter = [NSString stringWithFormat:@"%ld",(long)month];
     if (monthFormatter.length == 1) {
         monthFormatter = [NSString stringWithFormat:@"0%@",monthFormatter];
     }
@@ -168,8 +168,8 @@
         monthFormatter = monthFormatter;
     }
     /**特殊时间格式4/27(周一)*/
-    NSString *formatterDate = [NSString stringWithFormat:@"%@/%ld(%@)",monthFormatter,day,[arrOfWeek objectAtIndex:week-1]];
-    NSString *appendDate = [NSString stringWithFormat:@"%ld-%@-%ld %@",year,monthFormatter,day,formatterDate];
+    NSString *formatterDate = [NSString stringWithFormat:@"%@/%ld(%@)",monthFormatter,(long)day,[arrOfWeek objectAtIndex:week-1]];
+    NSString *appendDate = [NSString stringWithFormat:@"%ld-%@-%ld %@",(long)year,monthFormatter,(long)day,formatterDate];
     return appendDate;
 }
 /**
@@ -180,23 +180,23 @@
  */
 - (void)showInView:(UIView *)baseView andSelectDateCompleteHander:(SelectDatePickerCompleteHandler)dateCompleteHandler
 {
-    
+
     selectDateCompleteHander = dateCompleteHandler;
     [baseView addSubview:self];
-    
+
     [UIView animateWithDuration:1 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        
+
         CGRect selfRect = self.frame;
         selfRect.origin.y = SCREEN_HEIGHT-kDateViewHeight;
         self.frame = selfRect;
-        
+
         CGRect dateRect = _datePicker.frame;
         dateRect.size.height = kDatePickerHeight;
         _datePicker.frame = dateRect;
-        
-        
+
+
     } completion:^(BOOL finished) {
-        
+
     }];
 
 }
@@ -224,21 +224,21 @@
         CGRect selfRect = self.frame;
         selfRect.origin.y = SCREEN_HEIGHT;
         self.frame = selfRect;
-        
+
         /**
          *  重新设置日期选择器的高度
          */
         CGRect dateRect = _datePicker.frame;
         dateRect.size.height =0;
         _datePicker.frame = dateRect;
-        
+
     } completion:^(BOOL finished) {
-        
+
         [self removeFromSuperview];
-        
+
     }];
-    
-    
+
+
 }
 
 @end
